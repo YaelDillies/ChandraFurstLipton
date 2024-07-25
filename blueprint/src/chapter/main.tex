@@ -2,17 +2,17 @@
 % Add chapters of the blueprint here.
 % This file is not meant to be built. Build src/web.tex or src/print.tex instead.
 
-Let $G$ be a finite abelian group and $n \ge 2$ a natural number.
+Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a natural number.
 
-\begin{definition}
+\begin{definition}[$Eval$ function]
   \label{def:eval}
   \uses{}
   % \lean{}
   % \leanok
 
-  The $$\Eval$$ function is defined as
+  The $\Eval$ function is defined as
   \begin{align}
-      \Eval : G^n & \to \Prop \\
+      \Eval : G^d & \to \Bool \\
       x & \mapsto \begin{cases}
       1 & \text{ if } \sum_i x_i = 0 \\
       0 & \text{ else}
@@ -20,29 +20,53 @@ Let $G$ be a finite abelian group and $n \ge 2$ a natural number.
   \end{align}
 \end{definition}
 
-\begin{definition}
-  \label{def:nof-model}
+\begin{definition}[NOF strategy]
+  \label{def:strategy}
   \uses{}
   % \lean{}
   % \leanok
 
-  Given a function $F : G^n \to G$, the Number On the Forehead model consists of a strategy
+  Given a function $F : G^d \to G$, a {\bf NOF strategy} consists of maps
+  \begin{align}
+    \strat : & [d] \to G^{d - 1} \to \List \Bool \to \Bool \\
+    \guess : & [d] \to G^{d - 1} \to \List \Bool \to \Bool
+  \end{align}
 \end{definition}
 
-\begin{definition}
-  \label{def:nof-complexity}
-  \uses{def:nof-model}
+\begin{definition}[NOF broadcast]
+  \label{def:broadcast}
+  \uses{def:strategy}
   % \lean{}
   % \leanok
 
-  The {\bf communication complexity} of the NOF model for function $F$ is
+  Given a $F$-NOF strategy $\strat$, the NOF broadcast on input $x : G^d$ is inductively defined by
+  \begin{align}
+    \broad(x) : \N & \to \List \Bool \\
+    0 & \mapsto [] \\
+    t + 1 & \mapsto \strat_{t \% d} x\restrict_{\{t \% d\}^c} :: \broad(x) t
+  \end{align}
 \end{definition}
 
-\begin{theorem}
-  \label{thm:randomised-complexity-nof-eval}
-  \uses{def:eval, def:}
-  \lean{}
+\begin{definition}[Valid NOF strategy]
+  \label{def:valid-strategy}
+  \uses{def:broadcast}
+  % \lean{}
   % \leanok
 
+  The $F$-NOF strategy $\strat$ is {\bf valid at time $t$ on input $x$} if
+  $$\guess_i x\restrict_{\{i\}^c} (\broad(x) t) = F(x)$$
+\end{definition}
 
-\end{theorem}
+\begin{lemma}[All strategies are eventually valid]
+  \label{lem:eventually-valid-strategy}
+  \uses{def:valid-strategy}
+  % \lean{}
+  % \leanok
+
+  All $F$-NOF strategies are valid in time $d\ceil{\log_2 d}$.
+\end{lemma}
+\begin{proof}
+  % \leanok
+
+  Make the strategies be "Send the $t / d$-th bit of the number of the neighbor on my right". Then make the guess "Compute $x$ from its binary representation, then compute $F(X)$".
+\end{proof}
