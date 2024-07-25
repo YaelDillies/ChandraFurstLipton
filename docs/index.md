@@ -98,7 +98,7 @@ To build the web version of the blueprint, you need a working LaTeX installation
 Furthermore, you need some packages:
 ```
 sudo apt install graphviz libgraphviz-dev
-pip install -r blueprint/requirements.txt
+pip install leanblueprint
 ```
 
 To actually build the blueprint, run
