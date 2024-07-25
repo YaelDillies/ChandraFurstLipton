@@ -37,23 +37,11 @@ In either case, run `lake exe cache get` and then `lake build` to build the proj
 
 ## Build the blueprint
 
-To build the web version of the blueprint, you need a working LaTeX installation.
-Furthermore, you need some packages:
-```
-sudo apt install graphviz libgraphviz-dev
-pip install leanblueprint
-```
-
-To actually build the blueprint, run
-```
-lake exe cache get
-lake build
-inv all
-```
+See instructions at https://github.com/PatrickMassot/leanblueprint/.
 
 ## Acknowledgements
 
-Our project builds on mathlib. We must therefore thank its numerous contributors without whom this
+Our project builds on Mathlib. We must therefore thank its numerous contributors without whom this
 project couldn't even have started.
 
 Much of the project infrastructure has been adapted from
