@@ -1,4 +1,4 @@
-# Arithmetic Progressions - Almost Periodicity
+# Chandra-Furst-Lipton
 
 [![.github/workflows/push.yml](https://github.com/YaelDillies/ChandraFurstLipton/actions/workflows/push.yml/badge.svg)](https://github.com/YaelDillies/ChandraFurstLipton/actions/workflows/push.yml)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/YaelDillies/ChandraFurstLipton)
@@ -11,55 +11,19 @@ or type theory).
 
 ## The source
 
-The definitions, theorems and proofs in this repository are taken from the exposition of Bloom and
-Sisask on the Kelley-Meka bound on Roth numbers [2302.07211](https://arxiv.org/abs/2302.07211).
-
-The main result is that there is some constant `c > 0` such that, if `A ⊆ {1, ..., N}` contains no
-non-trivial arithmetic progression of length 3, then `|A| ≤ N/exp(c * (log n)^(1/12)))` for some
-constant `c > 0`. This is an amazing improvement over previous bounds, which were all of the form
-`N/(log n)^c` for some constant `c`.
+The definitions, theorems and proofs in this repository are taken from the now classic [multi-party protocols paper of Chandra-Furst Lipton](https://www.cs.umd.edu/~gasarch/BLOGPAPERS/multiparty-vdw.pdf).
 
 ## The target
 
-The formal system which we are using as a target system is Lean's dependent type theory. Lean is a
-project being developed at AWS and Microsoft Research by Leonardo de Moura and his team.
+The formal system which we are using as a target is Lean 4, a theorem prover based on the Calculus of Inductive Constructions, a dependent type theory. Lean is a project being developed at AWS and Microsoft Research by Leonardo de Moura and his team.
 
 ## Content of this project
-
-This project currently contains about 3k lines of Lean code about the discrete (difference)
-convolution, discrete Lp norms, discrete Fourier transform. It also contains proofs of a version of
-almost periodicity and of a quantitative version of the Marcinkiewicz-Zygmund inequality.
-
-Once finished, this project will contain two main results (here `R` is the Roth number, the maximum
-size of a set without three term arithmetic progressions):
-* The **finite field case**: A proof that `R(F_q^n) ≤ q ^ (n - c * n ^ (1/9))` for some constant
-  `c`. This is worse than the Ellenberg-Gijswijt bound `R(F_q^n) ≤ q ^ (n - c * n)` which was
-  formalised in [Dahmen, Hölzl, Lewis](https://drops.dagstuhl.de/opus/volltexte/2019/11070/). The
-  goal here is therefore not to improve on the existing bound but instead demonstrate the
-  probability and Fourier analysis techniques, whereas Ellenberg-Gijswijt used the polynomial
-  method.
-* The **integer case**: A proof that `R(n) ≤ N/exp(c * (log n)^(1/9)))`, using the same techniques
-  as in the finite field case, except for the fact that we now use Bohr sets instead of subspaces.
-  This bound is a slight improvement over the Kelley-Meka bound (with `1/12` as the exponent instead
-  of `1/9`). It is due to Bloom and Sisask.
 
 ### Code organisation
 
 The Lean code is contained in the directory `src/`. The subdirectories are:
-* `Mathlib`: Material missing from existing mathlib developments
-* `Prereqs`: New developments to be integrated to mathlib
-* `Physics`: The physical (as opposed to Fourier space) proof steps that are shared
-  between the finite field cases and integer case
-* `FiniteField`: The proof steps specific to the finite field case
-* `Integer`: The proof steps specific to the integer case
-
-## What next?
-
-Almost periodicity is nowadays a standard tool in additive combinatorics. The version we formalised is sufficient for many applications. In particular, it gives one of the best known bounds on Freiman's theorem. As a side goal, we might tackle Freiman's theorem.
-
-The discrete convolution/Lp norm/Fourier transform material belongs in mathlib and we hope to PR it there once the transition to Lean 4 has completed. Almost periodicity should similarly be upstreamed to mathlib given the numerous applications. The rest of the material might forever live in this repository.
-
-On top of the new developments, there are many basic lemmas needed for this project that are currently missing from mathlib.
+* `Mathlib`: Material missing from existing Mathlib developments
+* `Prereqs`: New developments to be integrated to Mathlib
 
 ## Build the Lean files
 
@@ -77,7 +41,7 @@ To build the web version of the blueprint, you need a working LaTeX installation
 Furthermore, you need some packages:
 ```
 sudo apt install graphviz libgraphviz-dev
-pip install -r blueprint/requirements.txt
+pip install leanblueprint
 ```
 
 To actually build the blueprint, run
@@ -99,6 +63,6 @@ Much of the project infrastructure has been adapted from
 
 ## Source reference
 
-`[BS]` : https://arxiv.org/abs/2302.07211
+`[CFL]` : https://www.cs.umd.edu/~gasarch/BLOGPAPERS/multiparty-vdw.pdf
 
-[BS]: https://arxiv.org/abs/2302.07211
+[CFL]: https://www.cs.umd.edu/~gasarch/BLOGPAPERS/multiparty-vdw.pdf
