@@ -20,30 +20,42 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a
   \end{align}
 \end{definition}
 
+\begin{definition}[Forgetting a coordinate]
+  \label{def:forget}
+  % \lean{}
+  % \leanok
+
+  For an index $i : [d]$, we define
+  \begin{align}
+    \forget_i : G^d & \to G^\{j : [d] \mid j \ne i\} \\
+    x & \mapsto j \mapsto x_j
+  \end{align}
+\end{definition}
+
 \begin{definition}[NOF strategy]
   \label{def:strategy}
   \uses{}
   % \lean{}
   % \leanok
 
-  Given a function $F : G^d \to G$, a {\bf NOF strategy} consists of maps
+  A {\bf NOF strategy} consists of maps
   \begin{align}
     \strat : & [d] \to G^{d - 1} \to \List \Bool \to \Bool \\
-    \guess : & [d] \to G^{d - 1} \to \List \Bool \to \Bool
+    \guess : & [d] \to G^{d - 1} \to \List \Bool \to G
   \end{align}
 \end{definition}
 
 \begin{definition}[NOF broadcast]
   \label{def:broadcast}
-  \uses{def:strategy}
+  \uses{def:strategy, def:forget}
   % \lean{}
   % \leanok
 
-  Given a $F$-NOF strategy $\strat$, the NOF broadcast on input $x : G^d$ is inductively defined by
+  Given a NOF strategy, the NOF broadcast on input $x : G^d$ is inductively defined by
   \begin{align}
     \broad(x) : \N & \to \List \Bool \\
     0 & \mapsto [] \\
-    t + 1 & \mapsto \strat_{t \% d} x\restrict_{\{t \% d\}^c} :: \broad(x) t
+    t + 1 & \mapsto \strat_{t \% d}(\forget_{\{t \% d\}^c}(x)) :: \broad(x) t
   \end{align}
 \end{definition}
 
@@ -53,8 +65,8 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a
   % \lean{}
   % \leanok
 
-  The $F$-NOF strategy $\strat$ is {\bf valid at time $t$ on input $x$} if
-  $$\guess_i x\restrict_{\{i\}^c} (\broad(x) t) = F(x)$$
+  Given a function $F : G^d \to G$, the NOF strategy is {\bf valid for $F$ at time $t$ on input $x$} if
+  $$\guess_i(\forget_i(x), \broad(x), t) = F(x)$$
 \end{definition}
 
 \begin{lemma}[All strategies are eventually valid]
