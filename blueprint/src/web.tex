@@ -1,29 +1,27 @@
-% This file makes the web version of the blueprint.
+% This file makes a web version of the blueprint
+% It should include all the \usepackage needed for this version.
+% The template includes standard AMS packages.
+% It is otherwise a very minimal preamble (you should probably at least
+% add cleveref and tikz-cd).
 
 \documentclass{report}
 
-\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{amssymb, amsthm, amsmath}
 \usepackage{hyperref}
-\usepackage{relsize}
-\usepackage{graphicx}
-\DeclareGraphicsExtensions{.svg,.png,.jpg}
-\usepackage[capitalize]{cleveref}
-\usepackage[showmore, dep_graph, coverage, project=../../]{blueprint}
+\usepackage[showmore, dep_graph]{blueprint}
 
-\usepackage{tikz-cd}
-\usepackage{tikz}
 
-\input{preamble/common}
-\input{preamble/web}
+\input{macros/common}
+\input{macros/web}
 
-%\home{https://github.com/YaelDillies/ChandraFurstLipton/}
-\github{https://github.com/YaelDillies/ChandraFurstLipton/}
+\home{https://YaelDillies.github.io/ChandraFurstLipton}
+\github{https://github.com/YaelDillies/ChandraFurstLipton}
 \dochome{https://YaelDillies.github.io/ChandraFurstLipton/docs}
 
-\title{ChandraFurstLipton}
+\title{Chandra-Furst-Lipton}
 \author{Yaël Dillies}
 
 \begin{document}
 \maketitle
-\input{chapter/main}
+\input{content}
 \end{document}
