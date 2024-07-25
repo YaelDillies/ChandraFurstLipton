@@ -1,0 +1,46 @@
+% This is the main point of entry to the blueprint.
+% Add chapters of the blueprint here.
+% This file is not meant to be built. Build src/web.tex or src/print.tex instead.
+
+Let $G$ be a finite abelian group and $n \ge 2$ a natural number.
+
+\begin{definition}
+  \label{def:eval}
+  \uses{}
+  % \lean{}
+  % \leanok
+
+  The $$\Eval$$ function is defined as
+  $$\Eval : G^n & \to \Prop \\
+    x & \mapsto \begin{cases}
+    1 & \text{ if } \sum_i x_i = 0 \\
+    0 & \text{ else}
+  \end{cases}$$
+\end{definition}
+
+\begin{definition}
+  \label{def:nof-model}
+  \uses{}
+  % \lean{}
+  % \leanok
+
+  Given a function $F : G^n \to G$, the Number On the Forehead model consists of a strategy
+\end{definition}
+
+\begin{definition}
+  \label{def:nof-complexity}
+  \uses{def:nof-model}
+  % \lean{}
+  % \leanok
+
+  The {\bf communication complexity} of the NOF model for function $F$ is
+\end{definition}
+
+\begin{theorem}
+  \label{thm:randomised-complexity-nof-eval}
+  \uses{def:eval, def:}
+  \lean{}
+  % \leanok
+
+
+\end{theorem}

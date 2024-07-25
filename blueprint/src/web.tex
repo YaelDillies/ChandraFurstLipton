@@ -1,0 +1,29 @@
+% This file makes the web version of the blueprint.
+
+\documentclass{report}
+
+\usepackage{amsmath,amsfonts,amsthm,amssymb}
+\usepackage{hyperref}
+\usepackage{relsize}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.svg,.png,.jpg}
+\usepackage[capitalize]{cleveref}
+\usepackage[showmore, dep_graph, coverage, project=../../]{blueprint}
+
+\usepackage{tikz-cd}
+\usepackage{tikz}
+
+\input{preamble/common}
+\input{preamble/web}
+
+%\home{https://github.com/YaelDillies/ChandraFurstLipton/}
+\github{https://github.com/YaelDillies/ChandraFurstLipton/}
+\dochome{https://YaelDillies.github.io/ChandraFurstLipton/docs}
+
+\title{ChandraFurstLipton}
+\author{Thomas Bloom, Yaël Dillies}
+
+\begin{document}
+\maketitle
+\input{chapter/main}
+\end{document}
