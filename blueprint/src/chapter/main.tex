@@ -10,9 +10,9 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a
   % \lean{}
   % \leanok
 
-  The $\Eval$ function is defined as
+  The $\eval$ function is defined as
   \begin{align}
-      \Eval : G^d & \to \Bool \\
+      \eval : G^d & \to \Bool \\
       x & \mapsto \begin{cases}
       1 & \text{ if } \sum_i x_i = 0 \\
       0 & \text{ else}
@@ -55,7 +55,7 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a
   \begin{align}
     \broad(x) : \N & \to \List \Bool \\
     0 & \mapsto [] \\
-    t + 1 & \mapsto \strat_{t \% d}(\forget_{\{t \% d\}^c}(x)) :: \broad(x) t
+    t + 1 & \mapsto \strat_{t \% d}(\forget_{t \% d}(x), \broad(x, t)) :: \broad(x, t)
   \end{align}
 \end{definition}
 
@@ -75,10 +75,43 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 2$ a
   % \lean{}
   % \leanok
 
-  All $F$-NOF strategies are valid in time $d\ceil{\log_2 d}$.
+  For all $F$, there exists a strategy valid in time $d\ceil{\log_2 n}$ on all inputs.
 \end{lemma}
 \begin{proof}
   % \leanok
 
   Make the strategies be "Send the $t / d$-th bit of the number of the neighbor on my right". Then make the guess "Compute $x$ from its binary representation, then compute $F(X)$".
+\end{proof}
+
+\begin{definition}[Complexity of a strategy]
+  \label{def:strategy-complexity}
+  \uses{def:valid-strategy}
+  % \lean{}
+  % \leanok
+
+  The {\bf communication complexity} of a NOF strategy for $F$ is the smallest time $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$, or infinite
+\end{definition}
+
+\begin{definition}[Complexity of a function]
+  \label{def:strategy-complexity}
+  \uses{def:strategy-complexity}
+  % \lean{}
+  % \leanok
+
+  The {\bf communication complexity} of a function $F$ is the minimum of the complexity of smallest complexity $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$.
+\end{definition}
+
+\begin{lemma}[Trivial bound on the complexity]
+  \label{lem:trivial-bound-complexity}
+  \uses{def:strategy-complexity}
+  % \lean{}
+  % \leanok
+
+  The communication complexity of any function $F$ is at most $d\ceil{\log_2 n}$.
+\end{lemma}
+\begin{proof}
+  \uses{lem:eventually-valid-strategy}
+  % \leanok
+
+  This is a rephrasing of Lemma \ref{lem:eventually-valid-strategy}.
 \end{proof}
