@@ -9,7 +9,7 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a
 
   For an index $i : [d]$, we define
   \begin{align}
-    \forget_i : G^d & \to G^\{j : [d] \mid j \ne i\} \\
+    \forget_i : G^d & \to G^{\{j : [d] \mid j \ne i\}} \\
     x & \mapsto j \mapsto x_j
   \end{align}
 \end{definition}
@@ -21,8 +21,8 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a
 
   A {\bf NOF strategy} $S$ consists of maps
   \begin{align}
-    \strat : & [d] \to G^{d - 1} \to \List \Bool \to \Bool \\
-    \guess : & [d] \to G^{d - 1} \to \List \Bool \to G
+    \strat : & [d] \to G^{d - 1} \to \leanList \Bool \to \Bool \\
+    \guess : & [d] \to G^{d - 1} \to \leanList \Bool \to G
   \end{align}
 \end{definition}
 
@@ -36,7 +36,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 
   Given a NOF strategy $S$, the NOF broadcast on input $x : G^d$ is inductively defined by
   \begin{align}
-    \broad(x) : \N & \to \List \Bool \\
+    \broad(x) : \N & \to \leanList \Bool \\
     0 & \mapsto [] \\
     t + 1 & \mapsto \strat_{t \% d}(\forget_{t \% d}(x), \broad(x, t)) :: \broad(x, t)
   \end{align}
@@ -97,7 +97,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   % \lean{}
   % \leanok
 
-  The {\bf communication complexity} of a NOF strategy $S$ for $F$ is the smallest time $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$, or infinite
+  The {\bf communication complexity of a NOF strategy} $S$ for $F$ is the smallest time $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$, or $\infty$ if no such $t$ exists.
 \end{definition}
 
 \begin{definition}[Complexity of a function]
@@ -106,7 +106,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   % \lean{}
   % \leanok
 
-  The {\bf communication complexity} of a function $F$ is the minimum of the complexity of smallest complexity $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$.
+  The {\bf communication complexity of a function} $F$ is the minimum of the communication complexity of $S$ when $S$ ranges over all NOF strategies.
 \end{definition}
 
 \begin{lemma}[Trivial bound on the function complexity]
