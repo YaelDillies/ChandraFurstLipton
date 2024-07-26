@@ -7,6 +7,9 @@
 /lake-packages
 /.lake
 
+*.aux
+*.fdb_latexmk
+
 decls.pickle
 decls.yaml
 src/all.lean
