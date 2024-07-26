@@ -4,8 +4,8 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a
 
 \begin{definition}[Forgetting a coordinate]
   \label{def:forget}
-  % \lean{}
-  % \leanok
+  \lean{NOF.forget}
+  \leanok
 
   For an index $i : [d]$, we define
   \begin{align}
@@ -16,8 +16,8 @@ Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a
 
 \begin{definition}[NOF strategy]
   \label{def:strategy}
-  % \lean{}
-  % \leanok
+  \lean{NOF.Strategy}
+  \leanok
 
   A {\bf NOF strategy} $S$ consists of maps
   \begin{align}
@@ -31,8 +31,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[NOF broadcast]
   \label{def:broadcast}
   \uses{def:strategy, def:forget}
-  % \lean{}
-  % \leanok
+  \lean{NOF.Strategy.broadcast}
+  \leanok
 
   Given a NOF strategy $S$, the NOF broadcast on input $x : G^d$ is inductively defined by
   \begin{align}
@@ -60,8 +60,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[Valid NOF strategy]
   \label{def:valid-strategy}
   \uses{def:broadcast}
-  % \lean{}
-  % \leanok
+  \lean{NOF.Strategy.IsValid}
+  \leanok
 
   Given a function $F : G^d \to G$, the NOF strategy $S$ is {\bf valid for $F$ at time $t$ on input $x$} if all participants correctly guess $F(x)$, namely if
   $$\guess_i(\forget_i(x), \broad(x, t)) = F(x)$$
