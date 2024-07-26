@@ -15,6 +15,23 @@
   \end{align}
 \end{definition}
 
+\begin{lemma}[Forbidden patterns project to multidimensional corners]
+  \label{lem:forbidden-pattern-project-multicorner}
+  \uses{def:forbidden-pattern, def:multicorner, def:forget}
+  % \lean{}
+  % \leanok
+
+  If $(a_1, \dots, a_d)$ is a forbidden pattern such that $F(a_i) = 1$ for all $i$, then
+  $$(\forget_i(a_1), \dots, \forget_i(a_d))$$
+  is a multidimensional corner for all index $i$.
+\end{lemma}
+\begin{proof}
+  % \uses{}
+  % \leanok
+
+  Let $v$ be the tip of $(a_1, \dots, a_d)$. Then, using that $\sum_k a_{j, k} = 0$ and $v_k = a_{j, k}$ for all $k \ne j$, we see that $v_j = a_{j, j} + \sum_k v_k$. This means that $(\forget_i(a_1), \dots, \forget_i(a_d)$ is a multidimensional corner by setting $x = \forget_i(a_i)$ and $c = \sum_k v_k$.
+\end{proof}
+
 \begin{lemma}[Monochromatic forbidden patterns are trivial]
   \label{lem:mono-forbidden-pattern-trivial}
   \uses{def:forbidden-pattern, def:valid-strategy, def:eval}
