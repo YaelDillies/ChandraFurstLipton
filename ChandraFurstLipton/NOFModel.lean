@@ -28,6 +28,7 @@ lemma broadcast_succ (S : Strategy G d) (x : Fin d → G) (t : ℕ) :
   broadcast S x (t + 1) = S.nextBit t (forget t x) (broadcast S x t) :: broadcast S x t :=
   rfl
 
+@[simp]
 def IsValid (S : Strategy G d) (F : (Fin d → G) → Bool) (t : ℕ) : Prop :=
   ∀ x : Fin d → G, ∀ i : Fin d, S.guess i (forget i x) (broadcast S x t) = F x
 
@@ -42,8 +43,16 @@ noncomputable
 def complexity (S : Strategy G d) (F : (Fin d → G) → Bool) : ENat :=
   ⨅ (t : ℕ) (_ : IsValid S F t), t
 
+lemma le_complexity {t : ℕ} {F : (Fin d → G) → Bool} {S : Strategy G d} :
+    t ≤ Strategy.complexity S F ↔ ∀ r : ℕ, S.IsValid F r → t ≤ r := by
+  simp [Strategy.complexity]
+
 end Strategy
 
 noncomputable
 def funComplexity (F : (Fin d → G) → Bool) :=
   ⨅ (S : Strategy G d), S.complexity F
+
+lemma le_funComplexity {t : ℕ} {F : (Fin d → G) → Bool} :
+    t ≤ funComplexity F ↔ ∀ S : Strategy G d, t ≤ S.complexity F := by
+  simp [funComplexity]
