@@ -92,8 +92,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[Complexity of a strategy]
   \label{def:strategy-complexity}
   \uses{def:valid-strategy}
-  % \lean{}
-  % \leanok
+  \lean{Strategy.complexity}
+  \leanok
 
   The {\bf communication complexity of a NOF strategy} $S$ for $F$ is the smallest time $t$ such that the strategy is valid for $F$ at time $t$ on all inputs $x$, or $\infty$ if no such $t$ exists.
 \end{definition}
@@ -101,8 +101,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[Complexity of a function]
   \label{def:function-complexity}
   \uses{def:strategy-complexity}
-  % \lean{}
-  % \leanok
+  \lean{funComplexity}
+  \leanok
 
   The {\bf communication complexity of a function} $F$ is the minimum of the communication complexity of $S$ when $S$ ranges over all NOF strategies.
 \end{definition}
