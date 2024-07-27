@@ -1,9 +1,12 @@
+
 import Mathlib.Algebra.BigOperators.Group.Finset
-import Mathlib.Data.Nat.Lattice
+import Mathlib.Algebra.Group.Fin.Basic
 import Mathlib.Data.ENat.Lattice
-import Mathlib.Data.ENat.Basic
+import Mathlib.Data.Nat.Bits
+import Init.Data.BitVec.Basic
 
 namespace NOF
+
 variable {G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
 
 def forget (i : Fin d) (x : Fin d → G) (j : {j : Fin d // j ≠ i}) : G :=
@@ -15,6 +18,20 @@ structure Strategy where
   guess (i : Fin d) : ({j : Fin d // j ≠ i} → G) → List Bool → Bool
 
 namespace Strategy
+
+def getBits (B : List Bool) (i : ℕ) (d : ℕ) : List Bool := Id.run do
+  let mut L := []
+  for j in [0:B.length] do
+    L := L ++ [B.getI ((i - 1) % d + j)]
+  pure L
+
+noncomputable
+def trivial (hd : 3 ≤ d) (F : (Fin d → G) → Bool) : Strategy G d where
+  nextBit i x B := by
+    refine (Nat.bits (Fintype.equivFin G (x ⟨i + 1, ?_ ⟩))).getI (B.length / d)
+    rw [Ne, add_right_eq_self, ← Nat.cast_one, Fin.natCast_eq_zero, Nat.dvd_one]
+    omega
+  guess i x B := F fun j => if h : j = i then (Fintype.equivFin G).invFun (BitVec.toNat (BitVec.ofBoolListLE (getBits B i d))) else x ⟨j, h⟩
 
 def broadcast (S : Strategy G d) (x : Fin d → G) : ℕ → List Bool
   | 0 => []
@@ -56,3 +73,9 @@ def funComplexity (F : (Fin d → G) → Bool) :=
 lemma le_funComplexity {t : ℕ} {F : (Fin d → G) → Bool} :
     t ≤ funComplexity F ↔ ∀ S : Strategy G d, t ≤ S.complexity F := by
   simp [funComplexity]
+
+def IsForbiddenPatternWithTip (a : Fin d → Fin d → G) (v : Fin d → G) : Prop :=
+  ∀ i j, i ≠ j → a i j = v j
+
+def IsForbiddenPattern (a : Fin d → Fin d → G) : Prop :=
+  ∃ v : Fin d → G, IsForbiddenPatternWithTip a v
