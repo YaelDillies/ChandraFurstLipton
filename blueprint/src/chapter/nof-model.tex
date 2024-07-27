@@ -107,6 +107,19 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   The {\bf communication complexity of a function} $F$ is the minimum of the communication complexity of $S$ when $S$ ranges over all NOF strategies.
 \end{definition}
 
+\begin{lemma}[Universal property of the function complexity]
+  \label{def:univ-property-function-complexity}
+  \uses{def:strategy-complexity, def:function-complexity}
+  % \lean{}
+  % \leanok
+
+  Let $t \in \mathbb{N}$ and $F : G^d \to G$ be a function. The following are equivalent:
+  \begin{itemize}
+      \item $t \le \mathrm{complexity} F$.
+      \item For every NOF strategy $S$, every $t' \in \mathbb{N}$ and every $x \in G^d$ such that $S$ is valid for $F$ at time $t$ on input $x$, we have $t \le t'$.
+  \end{itemize}
+\end{lemma}
+
 \begin{lemma}[Trivial bound on the function complexity]
   \label{lem:trivial-bound-function-complexity}
   \uses{def:function-complexity}
