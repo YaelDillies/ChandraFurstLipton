@@ -69,10 +69,10 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[The trivial protocol]
   \label{def:trivial-protocol}
   \uses{def:protocol}
-  % \lean{}
+  \lean{NOF.Protocol.trivial}
   % \leanok
 
-  For all $F$, we define the {\bf trivial protocol} by "Send the $t / d$-th bit of the number of the neighbor on my right" and "Compute $x$ from its binary representation, then compute $F(X)$".
+  For all $F$, we define the {\bf trivial protocol} by making participant $i$ do "Send the $t / d$-th bit of the number of participant $i + 1$" and "Compute $x_i$ from the binary representation given by participant $i - 1$, then compute $F(x)$".
 \end{definition}
 
 \begin{lemma}[The trivial protocol is valid]
@@ -86,13 +86,13 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{proof}
   % \leanok
 
-  Obvious. TODO: Expand
+  Obvious.
 \end{proof}
 
 \begin{definition}[Complexity of a protocol]
   \label{def:protocol-complexity}
   \uses{def:valid-protocol}
-  \lean{Protocol.complexity}
+  \lean{NOF.Protocol.complexity}
   \leanok
 
   The {\bf communication complexity of a NOF protocol} $S$ for $F$ is the smallest time $t$ such that the protocol is valid for $F$ at time $t$ on all inputs $x$, or $\infty$ if no such $t$ exists.
@@ -101,7 +101,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{definition}[Complexity of a function]
   \label{def:function-complexity}
   \uses{def:protocol-complexity}
-  \lean{funComplexity}
+  \lean{NOF.funComplexity}
   \leanok
 
   The {\bf communication complexity of a function} $F$ is the minimum of the communication complexity of $S$ when $S$ ranges over all NOF strategies.
