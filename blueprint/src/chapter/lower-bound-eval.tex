@@ -34,15 +34,15 @@
 
 \begin{lemma}[Monochromatic forbidden patterns are trivial]
   \label{lem:mono-forbidden-pattern-trivial}
-  \uses{def:forbidden-pattern, def:valid-strategy, def:eval}
+  \uses{def:forbidden-pattern, def:valid-protocol, def:eval}
   % \lean{}
   % \leanok
 
-  Given $S$ a NOF strategy valid at time $t$ for $\eval$, all monochromatic forbidden patterns are trivial.
+  Given $S$ a NOF protocol valid at time $t$ for $\eval$, all monochromatic forbidden patterns are trivial.
 \end{lemma}
 \begin{proof}
   \uses{lem:length-broadcast, lem:mono-forbidden-pattern-tip}
   % \leanok
 
-  Assume $(a_1, \dots, a_d)$ is a monochromatic forbidden pattern with tip $v$, say $\broad(a_i, t) = b$ for all $i$. By Lemma \ref{lem:mono-forbidden-pattern-tip}, we also have $\broad(v, t) = b$. Since $S$ is a valid NOF strategy for $\eval$, we get $\eval(a_i) = \eval(v)$ for all $i$, meaning that $(a_1, \dots, a_d) = (v, \dots, v)$ is trivial.
+  Assume $(a_1, \dots, a_d)$ is a monochromatic forbidden pattern with tip $v$, say $\broad(a_i, t) = b$ for all $i$. By Lemma \ref{lem:mono-forbidden-pattern-tip}, we also have $\broad(v, t) = b$. Since $S$ is a valid NOF protocol for $\eval$, we get $\eval(a_i) = \eval(v)$ for all $i$, meaning that $(a_1, \dots, a_d) = (v, \dots, v)$ is trivial.
 \end{proof}
