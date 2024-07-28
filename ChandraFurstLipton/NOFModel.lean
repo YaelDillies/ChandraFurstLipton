@@ -75,13 +75,25 @@ def IsForbiddenPatternWithTip (a : Fin d → Fin d → G) (v : Fin d → G) : Pr
 
 def IsForbiddenPattern (a : Fin d → Fin d → G) : Prop := ∃ v, IsForbiddenPatternWithTip a v
 
+lemma isForbiddenPatternWithTip_iff_forget :
+    IsForbiddenPatternWithTip a v ↔ ∀ i, forget i v = forget i (a i) := by
+  simp [Function.funext_iff, IsForbiddenPatternWithTip, eq_comm, forget]
+
+protected alias ⟨IsForbiddenPatternWithTip.forget, IsForbiddenPatternWithTip.of_forget⟩ :=
+  isForbiddenPatternWithTip_iff_forget
+
 lemma IsForbiddenPatternWithTip.broadcast_eq (hF : IsForbiddenPatternWithTip a v)
     (hB : ∀ i, P.broadcast (a i) t = B) : P.broadcast v t = B := by
-    induction' t with t ih generalizing B
-    · simpa using hB 0
-    · rw [Protocol.broadcast]
-      -- Show that the next player in v_{t + 1 mod k} and w see the same thing.
-      -- have : forget (t + 1) a (t + 1) = v t := sorry
-      sorry
+  induction' t with t ih generalizing B
+  · simpa using hB 0
+  simp_rw [Protocol.broadcast_succ] at *
+  obtain _ | ⟨b, B⟩ := B
+  · cases hB 0
+  simp [forall_and] at hB
+  specialize ih hB.2
+  subst ih
+  have h₁ : forget t v =  forget t (a t) := hF.forget t
+  have h₂ : P.broadcast v t = P.broadcast (a t) t := (hB.2 t).symm
+  rw [h₁, h₂, hB.1]
 
 end NOF
