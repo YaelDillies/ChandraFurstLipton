@@ -116,3 +116,7 @@ jobs:
       - name: Make sure the cache works
         run: |
           mv docs/docs .lake/build/doc
+
+      - name: Check declarations
+        run: |
+            ~/.elan/bin/lake exe checkdecls blueprint/lean_decls
