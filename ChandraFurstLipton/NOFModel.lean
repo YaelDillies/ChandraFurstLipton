@@ -50,11 +50,9 @@ def IsValid (S : Strategy G d) (F : (Fin d → G) → Bool) (t : ℕ) : Prop :=
   ∀ x : Fin d → G, ∀ i : Fin d, S.guess i (forget i x) (broadcast S x t) = F x
 
 @[simp]
-theorem length_broadcast (S : Strategy G d) (x : Fin d → G) (t : ℕ) : (broadcast S x t).length = t := by
-  induction' t with t ih
-  · simp [broadcast_zero S x]
-  · simp [broadcast_succ S x t]
-    exact ih
+theorem length_broadcast (S : Strategy G d) (x : Fin d → G) : ∀ t, (broadcast S x t).length = t
+  | 0 => rfl
+  | t + 1 => by simpa [broadcast_succ] using length_broadcast _ _ _
 
 noncomputable
 def complexity (S : Strategy G d) (F : (Fin d → G) → Bool) : ENat :=
@@ -79,3 +77,16 @@ def IsForbiddenPatternWithTip (a : Fin d → Fin d → G) (v : Fin d → G) : Pr
 
 def IsForbiddenPattern (a : Fin d → Fin d → G) : Prop :=
   ∃ v : Fin d → G, IsForbiddenPatternWithTip a v
+
+lemma IsForbiddenPatternWithTip.broadcast_eq {S : Strategy G d} {t : ℕ} {a : Fin d → Fin d → G}
+    {v : Fin d → G} (hF : IsForbiddenPatternWithTip a v) {B : List Bool}
+    (hB : ∀ i, S.broadcast (a i) t = B) : S.broadcast v t = B := by
+    induction' t with t ih generalizing B
+    · simp
+      specialize hB 1
+      rw [Strategy.broadcast] at hB
+      exact hB
+    · rw [Strategy.broadcast]
+      -- Show that the next player in v_{t + 1 mod k} and w see the same thing.
+      -- have : forget (t + 1) a (t + 1) = v t := sorry
+      sorry
