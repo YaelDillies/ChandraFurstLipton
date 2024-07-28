@@ -136,8 +136,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 \begin{lemma}[The tip of a monochromatic forbidden pattern]
   \label{lem:mono-forbidden-pattern-tip}
   \uses{def:forbidden-pattern, def:valid-protocol}
-  % \lean{}
-  % \leanok
+  \lean{NOF.IsForbiddenPatternWithTip.broadcast_eq}
+  \leanok
 
   Given $S$ a NOF protocol and a time $t$, if $(a_1, \dots, a_d)$ is a forbidden pattern with tip $v$ such that $\broad(a_i, t)$ equals some fixed broadcast history $b$ for all $i$, then $\broad(v, t) = b$ as well.
 \end{lemma}
