@@ -7,9 +7,9 @@ import Init.Data.BitVec.Basic
 
 namespace NOF
 
-variable {G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
+variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d] [Fintype ι]
 
-def forget (i : Fin d) (x : Fin d → G) (j : {j : Fin d // j ≠ i}) : G := x j
+def forget (i : ι) (x : ι → G) (j : {j : ι // j ≠ i}) : G := x j
 
 variable (G d) in
 structure Protocol where
@@ -41,12 +41,13 @@ def trivial (hd : 3 ≤ d) (F : (Fin d → G) → Bool) : Protocol G d where
 
 def broadcast (P : Protocol G d) (x : Fin d → G) : ℕ → List Bool
   | 0 => []
-  | t + 1 => P.nextBit t (forget t x) (broadcast P x t) :: broadcast P x t
+  | t + 1 => P.nextBit t (forget (t : Fin d) x) (broadcast P x t) :: broadcast P x t
 
 @[simp] lemma broadcast_zero (P : Protocol G d) (x : Fin d → G) : broadcast P x 0 = [] := rfl
 
 lemma broadcast_succ (P : Protocol G d) (x : Fin d → G) (t : ℕ) :
-    broadcast P x (t + 1) = P.nextBit t (forget t x) (broadcast P x t) :: broadcast P x t := rfl
+    broadcast P x (t + 1)
+      = P.nextBit t (forget (t : Fin d) x) (broadcast P x t) :: broadcast P x t := rfl
 
 def IsValid (P : Protocol G d) (F : (Fin d → G) → Bool) (t : ℕ) : Prop :=
   ∀ x i, P.guess i (forget i x) (broadcast P x t) = F x
@@ -70,10 +71,10 @@ noncomputable def funComplexity (F : (Fin d → G) → Bool) := ⨅ P : Protocol
 @[simp] lemma le_funComplexity : t ≤ funComplexity F ↔ ∀ P : Protocol G d, t ≤ P.complexity F := by
   simp [funComplexity]
 
-def IsForbiddenPatternWithTip (a : Fin d → Fin d → G) (v : Fin d → G) : Prop :=
+def IsForbiddenPatternWithTip (a : ι → ι → G) (v : ι → G) : Prop :=
   ∀ ⦃i j⦄, i ≠ j → a i j = v j
 
-def IsForbiddenPattern (a : Fin d → Fin d → G) : Prop := ∃ v, IsForbiddenPatternWithTip a v
+def IsForbiddenPattern (a : ι → ι → G) : Prop := ∃ v, IsForbiddenPatternWithTip a v
 
 lemma isForbiddenPatternWithTip_iff_forget :
     IsForbiddenPatternWithTip a v ↔ ∀ i, forget i v = forget i (a i) := by
@@ -92,7 +93,7 @@ lemma IsForbiddenPatternWithTip.broadcast_eq (hF : IsForbiddenPatternWithTip a v
   simp [forall_and] at hB
   specialize ih hB.2
   subst ih
-  have h₁ : forget t v =  forget t (a t) := hF.forget t
+  have h₁ : forget (t : Fin d) v =  forget (t : Fin d) (a t) := hF.forget t
   have h₂ : P.broadcast v t = P.broadcast (a t) t := (hB.2 t).symm
   rw [h₁, h₂, hB.1]
 

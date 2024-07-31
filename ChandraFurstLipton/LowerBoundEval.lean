@@ -1,11 +1,12 @@
 import ChandraFurstLipton.NOFModel
+import ChandraFurstLipton.MultidimCorners
 import Mathlib.Topology.Algebra.InfiniteSum.Group
 
 namespace NOF
-variable {G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
-  {P : Protocol G d} {t : ℕ} {B : List Bool} {a : Fin d → Fin d → G}
+variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
+  {P : Protocol G d} {t : ℕ} {B : List Bool} {a : Fin d → Fin d → G} [Fintype ι] [DecidableEq ι]
 
-def eval (x : Fin d → G) : Bool :=
+def eval (x : ι → G) : Bool :=
   ∑ i, x i == 0
 
 @[simp] lemma beq_eq_beq {α β : Type*} [BEq α] [LawfulBEq α] [BEq β] [LawfulBEq β] {a₁ a₂ : α}
@@ -35,5 +36,9 @@ lemma trivial_of_isForbiddenPattern_of_isValid_eval (ha : IsForbiddenPattern a)
       rw [Fintype.sum_eq_single]; simpa [eq_comm, sub_eq_zero] using @ha i
     _ = ∑ j, a i j - ∑ j, v j := by rw [Finset.sum_sub_distrib]
     _ = 0 := by simpa [h] using hE i
+
+lemma isMultidimCorner_forget_of_isForbiddenPattern (a : ι → ι → G) (h : IsForbiddenPattern a)
+    (hS : ∀ i, ∑ j, a i j = 0) (i : ι) :
+    IsMultidimCorner (fun j => forget i (a j)) (forget i (a i)) := sorry
 
 end NOF
