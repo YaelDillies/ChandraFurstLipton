@@ -2,18 +2,6 @@
 
 Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a natural number.
 
-\begin{definition}[Forgetting a coordinate]
-  \label{def:forget}
-  \lean{NOF.forget}
-  \leanok
-
-  For an index $i : [d]$, we define
-  \begin{align}
-    \forget_i : G^d & \to G^{\{j : [d] \mid j \ne i\}} \\
-    x & \mapsto j \mapsto x_j
-  \end{align}
-\end{definition}
-
 \begin{definition}[NOF protocol]
   \label{def:protocol}
   \lean{NOF.Protocol}
@@ -121,17 +109,6 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
 
   The trivial protocol is a protocol valid in time $d\ceil{\log_2 n}$.
 \end{proof}
-
-\begin{definition}[Forbidden pattern]
-  \label{def:forbidden-pattern}
-  \uses{}
-  \lean{NOF.IsForbiddenPatternWithTip, NOF.IsForbiddenPattern}
-  \leanok
-
-  We say a tuple $(a_1, \dots, a_d) : (G^d)^d$ is a {\bf forbidden pattern with tip $v : G^d$} if
-  $$a_{i, j} = v_j$$
-  for all $i, j$ distinct. We also simply say $(a_1, \dots, a_d)$ is a {\bf forbidden pattern} if it is a forbidden pattern with tip $v$ for some $v$.
-\end{definition}
 
 \begin{lemma}[The tip of a monochromatic forbidden pattern]
   \label{lem:mono-forbidden-pattern-tip}
