@@ -1,1 +1,58 @@
-\chapter{Upper bound on the communication complexity of $\eval$}
+\chapter{Upper bound on the deterministic communication complexity of \texorpdfstring{$\eval$}{eval}}
+
+\begin{definition}[The non-monochromatic protocol]
+  \label{def:non-monochromatic-protocol}
+  \uses{def:protocol}
+  % \lean{}
+  % \leanok
+
+  Given a coloring $c : \{x \mid \eval x = 1\} \to [C]$, writing $a_i$ the vector whose $j$-th coordinate is $x_j$ except when $j = i$ in which case it is $-\sum_{j \ne i} x_j$, we define the {\bf non-monochromatic protocol for $c$} by making participant $i$ do ``Send the $t / d$-th bit of $c(a_i)$ until time $\lceil\log_2\chi_d(G)\rceil$, then send $1$ iff $c(a_i)$ agrees with the broadcast from time $1$ to time $\lceil\log_2\chi_d(G)\rceil$ read as a color'' and ``Send $1$ iff the broadcasts from time $\lceil\log_2\chi_d(G)\rceil$ to time $\lceil\log_2\chi_d(G)\rceil + d$ were all $1$''.
+\end{definition}
+
+\begin{lemma}[The non-monochromatic protocol is valid]
+  \label{lem:non-monochromatic-protocol-valid}
+  \uses{def:non-monochromatic-protocol, def:valid-protocol}
+  % \lean{}
+  % \leanok
+
+  If $c$ is a coloring such that all monochromatic forbidden patterns are trivial, then the non-monochromatic protocol for $c$ is valid in time $\lceil\log_2\chi_d(G)\rceil + d$.
+\end{lemma}
+\begin{proof}
+  \uses{}
+  % \leanok
+
+  We have
+  $$\text{answer is } 1 \iff \text{ all $a_i$ have the same color } \iff \text{ all $a_i$ are equal } \iff \sum_i x_i = 0$$
+  where the first equivalence holds by definition, the second one holds by assumption and the third one holds since the $a_i$ form a forbidden pattern.
+\end{proof}
+
+\begin{theorem}[Upper bound for $D(\eval)$ in terms of $\chi_d(G)$]
+  \label{thm:complexity-eval-corner-color-color}
+  \uses{def:det-complexity, def:eval, def:corner-color-num}
+  % \lean{}
+  % \leanok
+
+  $$D(\eval) \le \lceil\log_2\chi_d(G)\rceil + d$$
+\end{theorem}
+\begin{proof}
+  \uses{thm:complexity-eval-corner-color-color}
+  % \leanok
+
+  Find some coloring $c$ in $\chi_d(G)$ colors such that all monochromatic forbidden patterns are trivial. Then Lemma \ref{lem:non-monochromatic-protocol-valid} tells us that the non-monochromatic protocol for $c$ is valid in time $\lceil\log_2\chi_d(G)\rceil + d$.
+\end{proof}
+
+\begin{corollary}[Upper bound for $D(\eval)$ in terms of $r_d(G)$]
+  \label{cor:complexity-eval-corner-free-num}
+  \uses{def:det-complexity, def:eval, def:corner-free-num}
+  % \lean{}
+  % \leanok
+
+  $$D(\eval) \le 2d\log_2\frac N{r_d(G)}$$ % Feel free to replace the 2d by any other constant
+\end{corollary}
+\begin{proof}
+  \uses{thm:complexity-eval-corner-color-color, lem:corner-num-upper}
+  % \leanok
+
+  Putting Theorem \ref{thm:complexity-eval-corner-color-color} and Lemma \ref{lem:corner-num-upper} together, we get
+  $$D(\eval) \le \lceil\log_2\frac{2dN^d\log N}{r_d(G)}\rceil \le 2d\log_2\frac N{r_d(G)}$$
+\end{proof}
