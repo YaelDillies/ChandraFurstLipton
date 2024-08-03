@@ -49,7 +49,7 @@ We will not make $P$ part of any notation as it is usually fixed from the contex
   \lean{NOF.Protocol.IsValid}
   \leanok
 
-  Given a function $F : G^d \to G$, the NOF protocol $P$ is {\bf valid in $F$ at time $t$ on input $x$} if all participants correctly guess $F(x)$, namely if
+  Given a function $F : G^d \to \Bool$, the NOF protocol $P$ is {\bf valid in $F$ at time $t$ on input $x$} if all participants correctly guess $F(x)$, namely if
   $$\guess_i(\forget_i(x), \broad(x, t)) = F(x)$$
   for all $i : [d]$.
 \end{definition}
@@ -77,8 +77,8 @@ We will not make $P$ part of any notation as it is usually fixed from the contex
   Obvious.
 \end{proof}
 
-\begin{definition}[Complexity of a protocol]
-  \label{def:protocol-complexity}
+\begin{definition}[Deterministic complexity of a protocol]
+  \label{def:det-protocol-complex}
   \uses{def:valid-protocol}
   \lean{NOF.Protocol.complexity}
   \leanok
@@ -87,8 +87,8 @@ We will not make $P$ part of any notation as it is usually fixed from the contex
 \end{definition}
 
 \begin{definition}[Deterministic complexity of a function]
-  \label{def:det-complex}
-  \uses{def:protocol-complexity}
+  \label{def:det-fun-complex}
+  \uses{def:det-protocol-complex}
   \lean{NOF.funComplexity}
   \leanok
 
@@ -96,8 +96,8 @@ We will not make $P$ part of any notation as it is usually fixed from the contex
 \end{definition}
 
 \begin{lemma}[Trivial bound on the function complexity]
-  \label{lem:trivial-bound-det-complex}
-  \uses{def:det-complex}
+  \label{lem:trivial-bound-det-fun-complex}
+  \uses{def:det-fun-complex}
   % \lean{}
   % \leanok
 

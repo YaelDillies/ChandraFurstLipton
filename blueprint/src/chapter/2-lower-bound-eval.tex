@@ -48,8 +48,8 @@
 \end{proof}
 
 \begin{theorem}[Lower bound for $D(\eval)$ in terms of $\chi_d(G)$]
-  \label{thm:det-complex-eval-ge-corner-color-num}
-  \uses{def:det-complex, def:eval, def:corner-color-num}
+  \label{thm:det-fun-complex-eval-ge-corner-color-num}
+  \uses{def:det-fun-complex, def:eval, def:corner-color-num}
   % \lean{}
   % \leanok
 
@@ -62,18 +62,18 @@
   Let $P$ be a protocol valid in time $t$ for $\eval$. By Lemma \ref{lem:mono-forbidden-pattern-trivial}, $\broad(\cdot, t)$ is a coloring of $\{x \mid \sum_i x_i = 0\}$ in at most $2^t$ colors (since $t$ bits were broadcasted) such that all monochromatic forbidden patterns are trivial. By Lemma \ref{lem:forbidden-pattern-project-multicorner}, this yields a coloring of $G^{d - 1}$ in at most $2^t$ colors such all monochromatic corners are trivial. Hence $2^t \ge \chi_d(G)$, as wanted.
 \end{proof}
 
-\begin{corollary}[Upper bound for $D(\eval)$ in terms of $r_d(G)$]
-  \label{cor:det-complex-eval-ge-corner-free-num}
-  \uses{def:det-complex, def:eval, def:corner-free-num}
+\begin{corollary}[Lower bound for $D(\eval)$ in terms of $r_d(G)$]
+  \label{cor:det-fun-complex-eval-ge-corner-free-num}
+  \uses{def:det-fun-complex, def:eval, def:corner-free-num}
   % \lean{}
   % \leanok
 
   $$D(\eval) \ge d\log_2\frac N{r_d(G)}$$
 \end{corollary}
 \begin{proof}
-  \uses{thm:det-complex-eval-ge-corner-color-num, lem:corner-num-lower}
+  \uses{thm:det-fun-complex-eval-ge-corner-color-num, lem:corner-num-lower}
   % \leanok
 
-  Putting Theorem \ref{thm:det-complex-eval-ge-corner-color-num} and Lemma \ref{lem:corner-num-lower} together, we get
+  Putting Theorem \ref{thm:det-fun-complex-eval-ge-corner-color-num} and Lemma \ref{lem:corner-num-lower} together, we get
   $$D(\eval) \ge \ceil{\log_2\frac{2dN^d\log N}{r_d(G)}} \ge d\log_2\frac N{r_d(G)}$$
 \end{proof}

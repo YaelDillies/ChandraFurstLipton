@@ -27,8 +27,8 @@
 \end{proof}
 
 \begin{theorem}[Upper bound for $D(\eval)$ in terms of $\chi_d(G)$]
-  \label{thm:det-complex-eval-le-corner-color-num}
-  \uses{def:det-complex, def:eval, def:corner-color-num}
+  \label{thm:det-fun-complex-eval-le-corner-color-num}
+  \uses{def:det-fun-complex, def:eval, def:corner-color-num}
   % \lean{}
   % \leanok
 
@@ -42,17 +42,17 @@
 \end{proof}
 
 \begin{corollary}[Upper bound for $D(\eval)$ in terms of $r_d(G)$]
-  \label{cor:det-complex-eval-le-corner-free-num}
-  \uses{def:det-complex, def:eval, def:corner-free-num}
+  \label{cor:det-fun-complex-eval-le-corner-free-num}
+  \uses{def:det-fun-complex, def:eval, def:corner-free-num}
   % \lean{}
   % \leanok
 
   $$D(\eval) \le 2d\log_2\frac N{r_d(G)}$$ % Feel free to replace the 2d by any other constant
 \end{corollary}
 \begin{proof}
-  \uses{thm:det-complex-eval-le-corner-color-num, lem:corner-num-upper}
+  \uses{thm:det-fun-complex-eval-le-corner-color-num, lem:corner-num-upper}
   % \leanok
 
-  Putting Theorem \ref{thm:det-complex-eval-le-corner-color-num} and Lemma \ref{lem:corner-num-upper} together, we get
+  Putting Theorem \ref{thm:det-fun-complex-eval-le-corner-color-num} and Lemma \ref{lem:corner-num-upper} together, we get
   $$D(\eval) \le \ceil{\log_2\frac{2dN^d\log N}{r_d(G)}} \le 2d\log_2\frac N{r_d(G)}$$
 \end{proof}
