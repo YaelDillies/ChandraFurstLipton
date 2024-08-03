@@ -27,7 +27,7 @@
 \end{proof}
 
 \begin{theorem}[Upper bound for $D(\eval)$ in terms of $\chi_d(G)$]
-  \label{thm:complexity-eval-corner-color-color}
+  \label{thm:complexity-eval-corner-color-num}
   \uses{def:det-complexity, def:eval, def:corner-color-num}
   % \lean{}
   % \leanok
@@ -35,7 +35,7 @@
   $$D(\eval) \le \lceil\log_2\chi_d(G)\rceil + d$$
 \end{theorem}
 \begin{proof}
-  \uses{thm:complexity-eval-corner-color-color}
+  \uses{lem:non-monochromatic-protocol-valid}
   % \leanok
 
   Find some coloring $c$ in $\chi_d(G)$ colors such that all monochromatic forbidden patterns are trivial. Then Lemma \ref{lem:non-monochromatic-protocol-valid} tells us that the non-monochromatic protocol for $c$ is valid in time $\lceil\log_2\chi_d(G)\rceil + d$.
@@ -50,9 +50,9 @@
   $$D(\eval) \le 2d\log_2\frac N{r_d(G)}$$ % Feel free to replace the 2d by any other constant
 \end{corollary}
 \begin{proof}
-  \uses{thm:complexity-eval-corner-color-color, lem:corner-num-upper}
+  \uses{thm:complexity-eval-corner-color-num, lem:corner-num-upper}
   % \leanok
 
-  Putting Theorem \ref{thm:complexity-eval-corner-color-color} and Lemma \ref{lem:corner-num-upper} together, we get
+  Putting Theorem \ref{thm:complexity-eval-corner-color-num} and Lemma \ref{lem:corner-num-upper} together, we get
   $$D(\eval) \le \lceil\log_2\frac{2dN^d\log N}{r_d(G)}\rceil \le 2d\log_2\frac N{r_d(G)}$$
 \end{proof}
