@@ -1,6 +1,7 @@
 import ChandraFurstLipton.NOFModel
 import ChandraFurstLipton.MultidimCorners
 import Mathlib.Topology.Algebra.InfiniteSum.Group
+import Mathlib.Algebra.Group.Defs
 
 namespace NOF
 variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
@@ -39,6 +40,32 @@ lemma trivial_of_isForbiddenPattern_of_isValid_eval (ha : IsForbiddenPattern a)
 
 lemma isMultidimCorner_forget_of_isForbiddenPattern (a : ι → ι → G) (h : IsForbiddenPattern a)
     (hS : ∀ i, ∑ j, a i j = 0) (i : ι) :
-    IsMultidimCorner (fun j => forget i (a j)) (forget i (a i)) := sorry
+    IsMultidimCorner (fun j => forget i (a j)) (forget i (a i)) := by
+    rw [IsForbiddenPattern] at h
+    obtain ⟨v, hv⟩ := h
+    rw [IsForbiddenPatternWithTip] at hv
+    have (i : ι) : v i = a i i + ∑ j, v j :=
+    calc
+       v i = ∑ j, a i j + v i := by simp [zero_add, hS]
+       _ = a i i + ∑ j ∈ Finset.univ \ {i}, a i j + v i := by simp
+       _ = a i i + ∑ j ∈ Finset.univ \ {i}, v j + v i := by
+        have (j : ι) : j ∈ Finset.univ \ {i} → a i j - v j = 0 := by
+          simp [hv, ← ne_eq, eq_comm]
+          intro hne
+          rw [sub_eq_zero]
+          exact hv hne
+        have (j : ι) : ∑ j ∈ Finset.univ \ {i}, a i j = ∑ j ∈ Finset.univ \ {i}, v j := by
+          rw [← sub_eq_zero, ← Finset.sum_sub_distrib, Finset.sum_eq_zero]
+          exact this
+        rw [this]
+        exact i
+       _ = a i i + ∑ j, v j := sorry
+    refine ⟨?_, ?_⟩
+    · intro hn _
+      sorry
+    rw [IsForbiddenPatternWithTip]
+    intros hn hn' hp
+    exfalso
+    sorry
 
 end NOF
