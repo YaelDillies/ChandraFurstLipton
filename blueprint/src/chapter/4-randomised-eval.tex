@@ -1,0 +1,61 @@
+\chapter{Randomised complexity of \texorpdfstring{$\eval$}{eval}}
+
+\begin{definition}[Randomised complexity of a protocol]
+  \label{def:rand-protocol-complex}
+  \uses{def:valid-protocol}
+  % \lean{}
+  % \leanok
+
+  The {\bf communication complexity of a randomised NOF protocol $P$ for $F$ with error $\epsilon$} is the smallest time $t$ such that
+  $$\mathbb P(x \mid P \text{ is not valid at time } t) \le \epsilon$$
+  or $\infty$ if no such $t$ exists.
+\end{definition}
+
+\begin{definition}[Randomised complexity of a function]
+  \label{def:rand-complex}
+  \uses{def:rand-protocol-complex}
+  % \lean{}
+  % \leanok
+
+  The {\bf randomised communication complexity of a function $F$ with error $\epsilon$}, denoted $R_\epsilon(F)$, is the minimum of the randomised communication complexity of $P$ when $P$ ranges over all randomised NOF protocols.
+\end{definition}
+
+\begin{definition}[The randomised equality testing protocol for $\eval$]
+  \label{def:rand-eq-test-protocol-eval}
+  \uses{def:protocol}
+  % \lean{}
+  % \leanok
+
+  The {\bf randomised equality testing protocol for $\eval$} has domain $\Omega := (\Bool^d)^{\lceil\log_2\epsilon^{-1}\rceil}$ with the uniform measure and is defined by making participant $i$ do ``Compute $$a_{i, k} = \sum_{j \ne i} \omega_{j, k}x_j$$ and send the sum of the digits of $a_{i, t/d}$ mod $2$ at time $t$'' and ``Guess $1$ iff the sum of the digits of $\omega_i x_i$ + what participant $i$ said is $0$ modulo $2$''.
+\end{definition}
+
+\begin{lemma}[The randomised equality testing protocol for $\eval$ is valid]
+  \label{lem:rand-eq-test-protocol-eval-valid}
+  \uses{def:rand-eq-test-protocol-eval, def:valid-protocol}
+  % \lean{}
+  % \leanok
+
+  The randomised equality testing protocol is valid for $\eval$ at time $2d$.
+\end{lemma}
+\begin{proof}
+  % \uses{}
+  % \leanok
+
+  If $\eval(x) = 1$, then the protocol guesses correctly. Else it errors with probability
+  $$2^{-\lceil{\log_2\epsilon^{-1}}\rceil} \le \epsilon$$
+\end{proof}
+
+\begin{theorem}[The randomised complexity of $\eval$ is constant]
+  \label{thm:eval-rand-complexity}
+  \uses{def:eval, def:rand-complex}
+  % \lean{}
+  % \leanok
+
+  $$R_\epsilon(\eval) \le 2d\lceil\log_2\epsilon^{-1}\rceil$$
+\end{theorem}
+\begin{proof}
+  \uses{lem:rand-eq-test-protocol-eval-valid}
+  % \leanok
+
+  By Lemma \ref{lem:rand-eq-test-protocol-eval-valid}, the randomised equality testing protocol is valid for $\eval$ at time $2d$.
+\end{proof}

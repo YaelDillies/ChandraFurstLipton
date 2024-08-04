@@ -1,15 +1,13 @@
-
+import Init.Data.BitVec.Basic
 import Mathlib.Algebra.BigOperators.Group.Finset
 import Mathlib.Algebra.Group.Fin.Basic
 import Mathlib.Data.ENat.Lattice
 import Mathlib.Data.Nat.Bits
-import Init.Data.BitVec.Basic
+import ChandraFurstLipton.MultidimCorners
 
 namespace NOF
 
 variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d] [Fintype ι]
-
-def forget (i : ι) (x : ι → G) (j : {j : ι // j ≠ i}) : G := x j
 
 variable (G d) in
 structure Protocol where
@@ -70,18 +68,6 @@ noncomputable def funComplexity (F : (Fin d → G) → Bool) := ⨅ P : Protocol
 
 @[simp] lemma le_funComplexity : t ≤ funComplexity F ↔ ∀ P : Protocol G d, t ≤ P.complexity F := by
   simp [funComplexity]
-
-def IsForbiddenPatternWithTip (a : ι → ι → G) (v : ι → G) : Prop :=
-  ∀ ⦃i j⦄, i ≠ j → a i j = v j
-
-def IsForbiddenPattern (a : ι → ι → G) : Prop := ∃ v, IsForbiddenPatternWithTip a v
-
-lemma isForbiddenPatternWithTip_iff_forget :
-    IsForbiddenPatternWithTip a v ↔ ∀ i, forget i v = forget i (a i) := by
-  simp [Function.funext_iff, IsForbiddenPatternWithTip, eq_comm, forget]
-
-protected alias ⟨IsForbiddenPatternWithTip.forget, IsForbiddenPatternWithTip.of_forget⟩ :=
-  isForbiddenPatternWithTip_iff_forget
 
 lemma IsForbiddenPatternWithTip.broadcast_eq (hF : IsForbiddenPatternWithTip a v)
     (hB : ∀ i, P.broadcast (a i) t = B) : P.broadcast v t = B := by

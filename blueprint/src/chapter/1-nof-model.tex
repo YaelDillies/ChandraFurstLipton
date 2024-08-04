@@ -2,31 +2,19 @@
 
 Let $G$ be a finite abelian group whose size we will denote $d$. Let $d \ge 3$ a natural number.
 
-\begin{definition}[Forgetting a coordinate]
-  \label{def:forget}
-  \lean{NOF.forget}
-  \leanok
-
-  For an index $i : [d]$, we define
-  \begin{align}
-    \forget_i : G^d & \to G^{\{j : [d] \mid j \ne i\}} \\
-    x & \mapsto j \mapsto x_j
-  \end{align}
-\end{definition}
-
 \begin{definition}[NOF protocol]
   \label{def:protocol}
   \lean{NOF.Protocol}
   \leanok
 
-  A {\bf NOF protocol} $S$ consists of maps
+  A {\bf NOF protocol} $P$ consists of maps
   \begin{align}
     \strat : & [d] \to G^{d - 1} \to \leanList \Bool \to \Bool \\
-    \guess : & [d] \to G^{d - 1} \to \leanList \Bool \to G
+    \guess : & [d] \to G^{d - 1} \to \leanList \Bool \to \Bool
   \end{align}
 \end{definition}
 
-We will not make $S$ part of any notation as it is usually fixed from the context.
+We will not make $P$ part of any notation as it is usually fixed from the context.
 
 \begin{definition}[NOF broadcast]
   \label{def:broadcast}
@@ -34,7 +22,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   \lean{NOF.Protocol.broadcast}
   \leanok
 
-  Given a NOF protocol $S$, the NOF broadcast on input $x : G^d$ is inductively defined by
+  Given a NOF protocol $P$, the {\bf NOF broadcast on input $x : G^d$} is inductively defined by
   \begin{align}
     \broad(x) : \N & \to \leanList \Bool \\
     0 & \mapsto [] \\
@@ -47,7 +35,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   \uses{def:broadcast}
   \lean{NOF.Protocol.length_broadcast}
   \leanok
-  For every NOF protocol $S$, every input $x : G^d$ and every time $t$, $\broad(x, t)$ has length $t$.
+  For every NOF protocol $P$, every input $x : G^d$ and every time $t$, $\broad(x, t)$ has length $t$.
 \end{lemma}
 \begin{proof}
   \uses{}
@@ -61,7 +49,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   \lean{NOF.Protocol.IsValid}
   \leanok
 
-  Given a function $F : G^d \to G$, the NOF protocol $S$ is {\bf valid for $F$ at time $t$ on input $x$} if all participants correctly guess $F(x)$, namely if
+  Given a function $F : G^d \to \Bool$, the NOF protocol $P$ is {\bf valid in $F$ at time $t$ on input $x$} if all participants correctly guess $F(x)$, namely if
   $$\guess_i(\forget_i(x), \broad(x, t)) = F(x)$$
   for all $i : [d]$.
 \end{definition}
@@ -89,27 +77,27 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   Obvious.
 \end{proof}
 
-\begin{definition}[Complexity of a protocol]
-  \label{def:protocol-complexity}
+\begin{definition}[Deterministic complexity of a protocol]
+  \label{def:det-protocol-complex}
   \uses{def:valid-protocol}
   \lean{NOF.Protocol.complexity}
   \leanok
 
-  The {\bf communication complexity of a NOF protocol} $S$ for $F$ is the smallest time $t$ such that the protocol is valid for $F$ at time $t$ on all inputs $x$, or $\infty$ if no such $t$ exists.
+  The {\bf communication complexity of a NOF protocol $P$ for $F$} is the smallest time $t$ such that $P$ is valid in $F$ at time $t$ on all inputs $x$, or $\infty$ if no such $t$ exists.
 \end{definition}
 
-\begin{definition}[Complexity of a function]
-  \label{def:function-complexity}
-  \uses{def:protocol-complexity}
+\begin{definition}[Deterministic complexity of a function]
+  \label{def:det-fun-complex}
+  \uses{def:det-protocol-complex}
   \lean{NOF.funComplexity}
   \leanok
 
-  The {\bf communication complexity of a function} $F$ is the minimum of the communication complexity of $S$ when $S$ ranges over all NOF strategies.
+  The {\bf deterministic communication complexity of a function} $F$, denoted $D(F)$, is the minimum of the communication complexity of $P$ when $P$ ranges over all NOF protocols.
 \end{definition}
 
 \begin{lemma}[Trivial bound on the function complexity]
-  \label{lem:trivial-bound-function-complexity}
-  \uses{def:function-complexity}
+  \label{lem:trivial-bound-det-fun-complex}
+  \uses{def:det-fun-complex}
   % \lean{}
   % \leanok
 
@@ -119,19 +107,8 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   \uses{lem:trivial-protocol-valid}
   % \leanok
 
-  The trivial protocol is a protocol valid in time $d\ceil{\log_2 n}$.
+  The trivial protocol is a protocol valid in $F$ in time $d\ceil{\log_2 n}$.
 \end{proof}
-
-\begin{definition}[Forbidden pattern]
-  \label{def:forbidden-pattern}
-  \uses{}
-  \lean{NOF.IsForbiddenPatternWithTip, NOF.IsForbiddenPattern}
-  \leanok
-
-  We say a tuple $(a_1, \dots, a_d) : (G^d)^d$ is a {\bf forbidden pattern with tip $v : G^d$} if
-  $$a_{i, j} = v_j$$
-  for all $i, j$ distinct. We also simply say $(a_1, \dots, a_d)$ is a {\bf forbidden pattern} if it is a forbidden pattern with tip $v$ for some $v$.
-\end{definition}
 
 \begin{lemma}[The tip of a monochromatic forbidden pattern]
   \label{lem:mono-forbidden-pattern-tip}
@@ -139,7 +116,7 @@ We will not make $S$ part of any notation as it is usually fixed from the contex
   \lean{NOF.IsForbiddenPatternWithTip.broadcast_eq}
   \leanok
 
-  Given $S$ a NOF protocol and a time $t$, if $(a_1, \dots, a_d)$ is a forbidden pattern with tip $v$ such that $\broad(a_i, t)$ equals some fixed broadcast history $b$ for all $i$, then $\broad(v, t) = b$ as well.
+  Given $P$ a NOF protocol and a time $t$, if $(a_1, \dots, a_d)$ is a forbidden pattern with tip $v$ such that $\broad(a_i, t)$ equals some fixed broadcast history $b$ for all $i$, then $\broad(v, t) = b$ as well.
 \end{lemma}
 \begin{proof}
   \uses{lem:length-broadcast}
