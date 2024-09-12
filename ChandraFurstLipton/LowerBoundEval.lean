@@ -4,16 +4,15 @@ import Mathlib.Topology.Algebra.InfiniteSum.Group
 import Mathlib.Algebra.Group.Defs
 
 namespace NOF
-variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d]
-  {P : Protocol G d} {t : ℕ} {B : List Bool} {a : Fin d → Fin d → G} [Fintype ι] [DecidableEq ι]
+variable {ι G : Type*} [AddCommGroup G] [DecidableEq G] {d : ℕ} [NeZero d]
+  {P : Protocol G d} {t : ℕ} {B : List Bool} {a : Fin d → Fin d → G} [Fintype ι]
 
 def eval (x : ι → G) : Bool :=
   ∑ i, x i == 0
 
-@[simp] lemma beq_eq_beq {α β : Type*} [BEq α] [LawfulBEq α] [BEq β] [LawfulBEq β] {a₁ a₂ : α}
-  {b₁ b₂ : β} : (a₁ == a₂) = (b₁ == b₂) ↔ (a₁ = a₂ ↔ b₁ = b₂) := by rw [Bool.eq_iff_iff]; simp
+@[simp] lemma eval_eq_true {x : ι → G} : eval x = true ↔ ∑ i, x i = 0 := by simp [eval]
 
-@[simp] lemma eval_eq_true {x : Fin d → G} : eval x = true ↔ ∑ i, x i = 0 := by simp [eval]
+variable [DecidableEq ι]
 
 lemma trivial_of_isForbiddenPattern_of_isValid_eval (ha : IsForbiddenPattern a)
     (hP : P.IsValid eval t) (hE : ∀ i, eval (a i) = true) (hB : ∀ i, P.broadcast (a i) t = B) :
@@ -38,21 +37,24 @@ lemma trivial_of_isForbiddenPattern_of_isValid_eval (ha : IsForbiddenPattern a)
     _ = ∑ j, a i j - ∑ j, v j := by rw [Finset.sum_sub_distrib]
     _ = 0 := by simpa [h] using hE i
 
-lemma isMultidimCorner_forget_of_isForbiddenPattern (a : ι → ι → G) (h : IsForbiddenPattern a)
-    (hS : ∀ i, ∑ j, a i j = 0) (i : ι) :
-    IsMultidimCorner (fun j => forget i (a j)) (forget i (a i)) := by
-    rw [IsForbiddenPattern] at h
-    obtain ⟨v, hv⟩ := h
-    refine ⟨fun k l => ?_, fun k l hneq => ?_⟩
-    · rw [← sub_eq_zero]
-      calc
-        ∑ j : { j // j ≠ i }, a k j - ∑ j : { j // j ≠ i }, a l j
-          = ∑ j : {j // j ≠ i}, (a k j - a l j) := by rw [Finset.sum_sub_distrib]
-        _ = ∑ j ∈ {i}ᶜ, (a k j - a l j) := (Finset.sum_subtype _ (by simp) (a k - a l)).symm
-        _ = ∑ j ∈ {i}ᶜ, (a k j - a l j) + (a k i - a l i) := by simp [hv k.2, hv l.2]
-        _ = ∑ j : ι, (a k j - a l j) := by rw [← Fintype.sum_eq_sum_compl_add]
-        _ = 0 := by rw [Finset.sum_sub_distrib, sub_eq_zero, hS k, hS l]
-    · rw [forget, forget, hv, hv l.2.symm]
-      aesop
+def getBits (B : List Bool) (i : ℕ) (d : ℕ) : List Bool := Id.run do
+  let mut L := []
+  for j in [0:B.length] do
+    L := L ++ [B.getI ((i - 1) % d + j)]
+  pure L
+
+variable [Fintype G]
+
+noncomputable
+def trivial (hd : 3 ≤ d) (F : (Fin d → G) → Bool) : Protocol G d where
+  nextBit i x B := by
+    refine (Nat.bits (Fintype.equivFin G (x ⟨i + 1, ?_ ⟩))).getI (B.length / d)
+    rw [Ne, add_right_eq_self, ← Nat.cast_one, Fin.natCast_eq_zero, Nat.dvd_one]
+    omega
+  guess i x B := F fun j ↦
+    if h : j = i then
+      (Fintype.equivFin G).symm (BitVec.toNat (BitVec.ofBoolListLE (getBits B i d)))
+    else
+      x ⟨j, h⟩
 
 end NOF

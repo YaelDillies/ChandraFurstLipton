@@ -7,7 +7,7 @@ import ChandraFurstLipton.MultidimCorners
 
 namespace NOF
 
-variable {ι G : Type*} [AddCommGroup G] [Fintype G] [DecidableEq G] {d : ℕ} [NeZero d] [Fintype ι]
+variable {ι G : Type*} {d : ℕ} [NeZero d] [Fintype ι]
 
 variable (G d) in
 structure Protocol where
@@ -18,24 +18,6 @@ variable {F : (Fin d → G) → Bool} {P : Protocol G d} {a : Fin d → Fin d �
   {B : List Bool} {t : ℕ}
 
 namespace Protocol
-
-def getBits (B : List Bool) (i : ℕ) (d : ℕ) : List Bool := Id.run do
-  let mut L := []
-  for j in [0:B.length] do
-    L := L ++ [B.getI ((i - 1) % d + j)]
-  pure L
-
-noncomputable
-def trivial (hd : 3 ≤ d) (F : (Fin d → G) → Bool) : Protocol G d where
-  nextBit i x B := by
-    refine (Nat.bits (Fintype.equivFin G (x ⟨i + 1, ?_ ⟩))).getI (B.length / d)
-    rw [Ne, add_right_eq_self, ← Nat.cast_one, Fin.natCast_eq_zero, Nat.dvd_one]
-    omega
-  guess i x B := F fun j ↦
-    if h : j = i then
-      (Fintype.equivFin G).symm (BitVec.toNat (BitVec.ofBoolListLE (getBits B i d)))
-    else
-      x ⟨j, h⟩
 
 def broadcast (P : Protocol G d) (x : Fin d → G) : ℕ → List Bool
   | 0 => []
