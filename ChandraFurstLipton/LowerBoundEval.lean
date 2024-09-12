@@ -43,29 +43,16 @@ lemma isMultidimCorner_forget_of_isForbiddenPattern (a : ι → ι → G) (h : I
     IsMultidimCorner (fun j => forget i (a j)) (forget i (a i)) := by
     rw [IsForbiddenPattern] at h
     obtain ⟨v, hv⟩ := h
-    rw [IsForbiddenPatternWithTip] at hv
-    have (i : ι) : v i = a i i + ∑ j, v j :=
-    calc
-       v i = ∑ j, a i j + v i := by simp [zero_add, hS]
-       _ = a i i + ∑ j ∈ Finset.univ \ {i}, a i j + v i := by simp
-       _ = a i i + ∑ j ∈ Finset.univ \ {i}, v j + v i := by
-        have (j : ι) : j ∈ Finset.univ \ {i} → a i j - v j = 0 := by
-          simp [hv, ← ne_eq, eq_comm]
-          intro hne
-          rw [sub_eq_zero]
-          exact hv hne
-        have (j : ι) : ∑ j ∈ Finset.univ \ {i}, a i j = ∑ j ∈ Finset.univ \ {i}, v j := by
-          rw [← sub_eq_zero, ← Finset.sum_sub_distrib, Finset.sum_eq_zero]
-          exact this
-        rw [this]
-        exact i
-       _ = a i i + ∑ j, v j := sorry
-    refine ⟨?_, ?_⟩
-    · intro hn _
-      sorry
-    rw [IsForbiddenPatternWithTip]
-    intros hn hn' hp
-    exfalso
-    sorry
+    refine ⟨fun k l => ?_, fun k l hneq => ?_⟩
+    · rw [← sub_eq_zero]
+      calc
+        ∑ j : { j // j ≠ i }, a k j - ∑ j : { j // j ≠ i }, a l j
+          = ∑ j : {j // j ≠ i}, (a k j - a l j) := by rw [Finset.sum_sub_distrib]
+        _ = ∑ j ∈ {i}ᶜ, (a k j - a l j) := (Finset.sum_subtype _ (by simp) (a k - a l)).symm
+        _ = ∑ j ∈ {i}ᶜ, (a k j - a l j) + (a k i - a l i) := by simp [hv k.2, hv l.2]
+        _ = ∑ j : ι, (a k j - a l j) := by rw [← Fintype.sum_eq_sum_compl_add]
+        _ = 0 := by rw [Finset.sum_sub_distrib, sub_eq_zero, hS k, hS l]
+    · rw [forget, forget, hv, hv l.2.symm]
+      aesop
 
 end NOF
